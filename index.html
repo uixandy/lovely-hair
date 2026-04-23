@@ -940,26 +940,110 @@
   }
 
   /* ===== Responsive ===== */
+
+  /* ---- Tablet (≤1100px) ---- */
   @media (max-width: 1100px) {
     .services-grid { grid-template-columns: repeat(2, 1fr); }
     .team-grid { grid-template-columns: repeat(3, 1fr); }
     .gallery-strip { grid-template-columns: repeat(3, 1fr); }
     .contact-grid { grid-template-columns: 1fr 1fr; }
   }
+
+  /* ---- Mobile (≤768px) ---- */
   @media (max-width: 768px) {
-    .nav-links { display: none; }
-    .hero-grid, .about-grid, .faq-grid, .services-head { grid-template-columns: 1fr; gap: 40px; }
-    .testimonial-grid { grid-template-columns: 1fr; }
-    .t-featured { grid-template-columns: 1fr; gap: 24px; }
-    .t-featured-content { padding: 40px 32px 32px; }
-    .t-grid { grid-template-columns: 1fr 1fr; }
+    .container { padding: 0 20px; }
+    .nav-inner { padding: 16px 20px; }
+    .brand-mark { width: 160px; }
+
+    /* Burger button */
+    .burger {
+      display: flex; flex-direction: column; justify-content: center; gap: 5px;
+      width: 40px; height: 40px;
+      background: none; border: none; cursor: pointer; padding: 8px;
+      flex-shrink: 0;
+    }
+    .burger span {
+      display: block; height: 1.5px;
+      background: var(--espresso); border-radius: 2px;
+      transition: transform .3s ease, opacity .3s ease;
+    }
+    .burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; }
+    .burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* Mobile nav drawer */
+    .nav-links {
+      display: none;
+      position: absolute; top: 100%; left: 0; right: 0;
+      flex-direction: column; gap: 0;
+      background: rgba(250, 246, 240, 0.97);
+      backdrop-filter: saturate(140%) blur(10px);
+      -webkit-backdrop-filter: saturate(140%) blur(10px);
+      border-bottom: 1px solid var(--line);
+      padding: 8px 0 16px;
+      z-index: 39;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a {
+      padding: 14px 24px;
+      font-size: 15px;
+      border-bottom: 1px solid rgba(230, 219, 200, 0.4);
+    }
+    .nav-links a::after { display: none; }
+    .nav-cta { display: none; }
+
+    /* Hero */
+    .hero { padding: 40px 0 60px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-stage { max-width: 320px; margin: 0 auto; }
+    .hero-badge { left: -10px; width: 90px; height: 90px; font-size: 12px; }
+    .hero-badge strong { font-size: 15px; }
+    .hero-big-type { font-size: 100px; bottom: -30px; left: -10px; }
+    .hero-ornament { display: none; }
+
+    /* Sections */
+    section { padding: 72px 0; }
+    .about-grid, .faq-grid, .services-head { grid-template-columns: 1fr; gap: 40px; }
+    .about-visual { aspect-ratio: auto; height: 360px; }
+    .about-visual .stamp { left: -4px; }
+
+    /* Services */
+    .services-grid { grid-template-columns: 1fr 1fr; }
+
+    /* Team */
     .team-grid { grid-template-columns: 1fr 1fr; }
+
+    /* Gallery */
     .gallery-strip { grid-template-columns: repeat(2, 1fr); }
+    .gallery-head { flex-direction: column; align-items: flex-start; gap: 20px; }
+
+    /* Testimonials */
+    .t-featured { grid-template-columns: 1fr; gap: 24px; }
+    .t-featured-photo { aspect-ratio: 16/9; border-radius: 14px; }
+    .t-featured-content { padding: 32px 24px; }
+    .t-featured-quote { font-size: clamp(18px, 4vw, 22px); margin: 28px 0 24px; }
+    .t-grid { grid-template-columns: 1fr 1fr; }
+
+    /* Contact / Footer */
     .contact-grid { grid-template-columns: 1fr; }
-    .hero-big-type { font-size: 120px; bottom: -40px; }
-    section { padding: 80px 0; }
-    .hero { padding: 40px 0 80px; }
+    .contact-brand .brand-mark { width: 200px; }
+    .foot { flex-direction: column; gap: 16px; text-align: center; }
+    .foot-links { flex-wrap: wrap; justify-content: center; }
+
+    /* Floating button */
     .book-float small { display: none; }
+  }
+
+  /* ---- Small mobile (≤480px) ---- */
+  @media (max-width: 480px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .t-grid { grid-template-columns: 1fr; }
+    .gallery-strip { grid-template-columns: 1fr 1fr; }
+    .hero-big-type { display: none; }
+    .hero-stage { max-width: 260px; }
+    .t-featured-photo { aspect-ratio: 4/3; }
+    .faq-item summary { font-size: 18px; padding: 20px 20px; }
+    .faq-body { padding: 0 20px 20px; }
   }
 
   /* placeholder pattern — stripes for "drop image here" */
@@ -1003,6 +1087,9 @@
       Termin buchen
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
     </a>
+    <button class="burger" id="burger" aria-label="Menü öffnen" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
@@ -1503,6 +1590,21 @@
     clearInterval(heroInt);
     go(parseInt(d.dataset.i, 10));
     heroInt = setInterval(() => go(cur + 1), 5000);
+  }));
+
+  // ===== Burger / mobile nav =====
+  const burger = document.getElementById('burger');
+  const navLinks = document.querySelector('.nav-links');
+  burger.addEventListener('click', () => {
+    const open = burger.classList.toggle('open');
+    navLinks.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open);
+  });
+  // Close menu on link click
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    burger.classList.remove('open');
+    navLinks.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
   }));
 
   // ===== Floating book button reveal =====
