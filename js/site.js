@@ -77,14 +77,6 @@
     }));
   }
 
-  const bf = document.getElementById('bookFloat');
-  if (bf) {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 500) bf.classList.add('visible');
-      else bf.classList.remove('visible');
-    });
-  }
-
   const TYPE_CONFIG = {
     'cormorant-inter': {
       gfont: 'Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600',
